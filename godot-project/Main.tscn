@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/character/Character-old-rig.gd" type="Script" id=1]
+[ext_resource path="res://assets/character/Capybara.gd" type="Script" id=1]
 [ext_resource path="res://materials/dummy_floor.tres" type="Material" id=2]
 [ext_resource path="res://assets/character/Capybara - Moving.gltf" type="PackedScene" id=3]
 [ext_resource path="res://materials/dummy_wall.tres" type="Material" id=4]
