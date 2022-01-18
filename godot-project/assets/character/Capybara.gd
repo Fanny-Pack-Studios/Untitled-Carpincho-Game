@@ -8,24 +8,22 @@ export var speed: int = 2
 onready var camera = $"../CameraPivot/Camera"
 
 func _physics_process(delta):
+	var camera_forward = get_camera_forward()
 	velocity.y -= gravity * delta
 	
 	if is_on_floor() && Input.is_action_just_pressed("jump"):
 		velocity.y = 4
 	
-	var input_direction = Input.get_vector("right", "left", "down", "up")
+	var input_direction = Input.get_vector("left", "right", "up", "down")
 	
 	if input_direction != Vector2.ZERO:
 		var input_direction_3d = Vector3(input_direction.x, 0, input_direction.y).normalized()
-		var camera_forward = get_camera_forward()
 		
-		print(camera_forward)
+		input_direction_3d = input_direction_3d.rotated(Vector3.UP, camera_forward.signed_angle_to(Vector3.FORWARD, Vector3.DOWN))
 		
-		input_direction_3d = input_direction_3d.rotated(Vector3.UP, camera_forward.angle_to(Vector3.RIGHT))
+		transform.basis = Basis(input_direction_3d.rotated(Vector3.UP, -PI/2), Vector3.UP, -input_direction_3d)
 		
-		transform.basis = Basis(input_direction_3d.rotated(Vector3.UP, PI/2), Vector3.UP, input_direction_3d)
-		
-		var forward_velocity = speed * global_transform.basis.z
+		var forward_velocity = speed * -global_transform.basis.z
 		velocity.x = forward_velocity.x
 		velocity.z = forward_velocity.z
 	else:
@@ -36,8 +34,5 @@ func _physics_process(delta):
 
 func get_camera_forward() -> Vector3: 
 	var zbasis = camera.global_transform.basis.z
-	return Vector3(zbasis.x, 0, zbasis.z).normalized()
-
-func _ready():
-	pass
+	return -Vector3(zbasis.x, 0, zbasis.z).normalized()
 
