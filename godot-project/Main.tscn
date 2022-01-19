@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/character/Capybara.gd" type="Script" id=1]
 [ext_resource path="res://materials/dummy_floor.tres" type="Material" id=2]
-[ext_resource path="res://assets/character/Capybara - Moving.gltf" type="PackedScene" id=3]
+[ext_resource path="res://assets/character/Capybara.gltf" type="PackedScene" id=3]
 [ext_resource path="res://materials/dummy_wall.tres" type="Material" id=4]
 [ext_resource path="res://camera/CameraPivot.gd" type="Script" id=5]
 
@@ -43,8 +43,8 @@ size = 3.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.757617, 0 )
 script = ExtResource( 1 )
 
-[node name="Capybara - Moving" parent="Capybara" instance=ExtResource( 3 )]
-transform = Transform( -0.307758, 0, -4.64702e-08, 0, 0.307758, 0, 4.64702e-08, 0, -0.307758, -2.82684e-08, -0.251836, -0.187213 )
+[node name="Capybara" parent="Capybara" instance=ExtResource( 3 )]
+transform = Transform( -0.31, 0, -2.71011e-08, 0, 0.31, 0, 2.71011e-08, 0, -0.31, 0, -0.252658, -0.192258 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Capybara"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0142565 )
