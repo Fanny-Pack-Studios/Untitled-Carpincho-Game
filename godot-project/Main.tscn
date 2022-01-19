@@ -34,7 +34,7 @@ material = ExtResource( 4 )
 script = ExtResource( 5 )
 
 [node name="Camera" type="Camera" parent="CameraPivot"]
-transform = Transform( 0.707107, 0.353553, -0.612373, 0, 0.866026, 0.499999, 0.707107, -0.353553, 0.612373, -1.87927, 2.18441, 1.87927 )
+transform = Transform( 0.707107, 0.353553, -0.612373, 0, 0.866026, 0.499999, 0.707107, -0.353553, 0.612373, -2.0593, 1.74344, 2.0593 )
 projection = 1
 current = true
 size = 3.0

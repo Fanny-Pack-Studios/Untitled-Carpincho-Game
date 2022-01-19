@@ -5,7 +5,9 @@ var gravity = 10
 
 export var speed: int = 2
 
-onready var camera = $"../CameraPivot/Camera"
+export(NodePath) var camera_path: NodePath = @"../CameraPivot/Camera"
+
+onready var camera: Camera = get_node(camera_path)
 
 var input_direction_3d: Vector3 = Vector3()
 
