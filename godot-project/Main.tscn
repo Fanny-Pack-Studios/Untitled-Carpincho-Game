@@ -43,7 +43,7 @@ size = 3.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.757617, 0 )
 script = ExtResource( 1 )
 
-[node name="Capybara" parent="Capybara" instance=ExtResource( 3 )]
+[node name="CapybaraModel" parent="Capybara" instance=ExtResource( 3 )]
 transform = Transform( -0.31, 0, -2.71011e-08, 0, 0.31, 0, 2.71011e-08, 0, -0.31, 0, -0.252658, -0.192258 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Capybara"]
@@ -51,11 +51,18 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0142565 )
 shape = SubResource( 3 )
 
 [node name="Floor" type="CSGBox" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0174356, 0.0423583, -0.00821984 )
 use_collision = true
-width = 3.0
+width = 5.0
 height = 0.1
-depth = 3.0
+depth = 5.0
+material = ExtResource( 2 )
+
+[node name="Floor2" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.993399, -0.114712, 0, 0.114712, 0.993399, 0, 0.986447, -4.26106 )
+use_collision = true
+width = 5.0
+height = 0.1
+depth = 5.0
 material = ExtResource( 2 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]

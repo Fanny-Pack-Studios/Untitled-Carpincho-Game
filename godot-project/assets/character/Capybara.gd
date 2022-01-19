@@ -3,7 +3,10 @@ extends KinematicBody
 var velocity = Vector3.ZERO
 var gravity = 10
 
-export var speed: int = 2
+export(float) var running_speed: float = 2.6
+export(float) var walking_speed: float = 0.8
+
+var walking: bool = false
 
 export(NodePath) var camera_path: NodePath = @"../CameraPivot/Camera"
 
@@ -11,24 +14,52 @@ onready var camera: Camera = get_node(camera_path)
 
 var input_direction_3d: Vector3 = Vector3()
 
+export(float) var turn_speed: float = 5 * PI
+
+onready var animation_player = $CapybaraModel/AnimationPlayer
+
 func _physics_process(delta):
-	
 	velocity.y -= gravity * delta
 	
 	if is_on_floor() && Input.is_action_just_pressed("jump"):
 		velocity.y = 4
 	
 	if input_direction_3d != Vector3.ZERO:
-		transform.basis = Basis(input_direction_3d.rotated(Vector3.UP, -PI/2), Vector3.UP, -input_direction_3d)
+		animation_player.play("Walking" if walking else "Running")
 		
-		var forward_velocity = speed * -global_transform.basis.z
+		var target_quat = Quat(Basis(input_direction_3d.rotated(Vector3.UP, -PI/2), Vector3.UP, -input_direction_3d))
+		var current_quat = Quat(transform.basis)
+		
+		var angleDiff = target_quat.angle_to(current_quat)
+	
+		var max_delta_rotation = turn_speed * delta
+		
+		if(max_delta_rotation >= angleDiff):
+			current_quat = target_quat
+		else:
+			var weight = max_delta_rotation / angleDiff
+			print(weight)
+			
+			current_quat = current_quat.slerp(target_quat, weight)
+			
+		var scale = transform.basis.get_scale()
+		
+		transform.basis = Basis(current_quat).scaled(scale) 
+
+		#transform.basis = Basis(current_front_vector.rotated(Vector3.UP, -PI/2), Vector3.UP, -current_front_vector)
+		
+		var forward_velocity = get_speed() * -global_transform.basis.z
 		velocity.x = forward_velocity.x
 		velocity.z = forward_velocity.z
 	else:
+		animation_player.play("Idle Pose")
 		velocity.x = 0
 		velocity.z = 0
 		
-	velocity = move_and_slide(velocity, Vector3.UP)
+	velocity = move_and_slide(velocity, Vector3.UP, true)
+
+func get_speed():
+	return walking_speed if walking else running_speed
 
 func _process(delta):
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -41,6 +72,11 @@ func _process(delta):
 	else:
 		input_direction_3d = Vector3.ZERO
 		
+	walking = Input.is_action_pressed("walking")
+		
+
+func _ready():
+	animation_player.playback_default_blend_time = 0.15
 
 func get_camera_forward() -> Vector3: 
 	var zbasis = camera.global_transform.basis.z
