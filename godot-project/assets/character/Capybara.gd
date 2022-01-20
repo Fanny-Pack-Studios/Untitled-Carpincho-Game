@@ -28,7 +28,7 @@ func _physics_process(delta):
 		animation_player.play("Walking" if walking else "Running")
 		
 		var target_quat = Quat(Basis(input_direction_3d.rotated(Vector3.UP, -PI/2), Vector3.UP, -input_direction_3d))
-		var current_quat = Quat(transform.basis)
+		var current_quat = Quat(transform.basis.orthonormalized())
 		
 		var angleDiff = target_quat.angle_to(current_quat)
 	
@@ -38,7 +38,6 @@ func _physics_process(delta):
 			current_quat = target_quat
 		else:
 			var weight = max_delta_rotation / angleDiff
-			print(weight)
 			
 			current_quat = current_quat.slerp(target_quat, weight)
 			
@@ -77,6 +76,7 @@ func _process(delta):
 
 func _ready():
 	animation_player.playback_default_blend_time = 0.15
+	DebugOverlay.add_vector(self, "input_direction_3d")
 
 func get_camera_forward() -> Vector3: 
 	var zbasis = camera.global_transform.basis.z
