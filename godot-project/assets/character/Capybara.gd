@@ -1,7 +1,7 @@
 extends KinematicBody
 
 var velocity = Vector3.ZERO
-var gravity = 10
+var gravity = 15
 
 export(float) var running_speed: float = 2.6
 export(float) var walking_speed: float = 0.8
@@ -18,11 +18,22 @@ export(float) var turn_speed: float = 5 * PI
 
 onready var animation_player = $CapybaraModel/AnimationPlayer
 
+export(float) var jump_control_time = 0.2
+var remaining_jump_control = 0
+
+export(float) var jump_speed = 4.5
+
 func _physics_process(delta):
 	velocity.y -= gravity * delta
 	
 	if is_on_floor() && Input.is_action_just_pressed("jump"):
-		velocity.y = 4
+		velocity.y = jump_speed
+		remaining_jump_control = jump_control_time
+		
+	if remaining_jump_control > 0:
+		remaining_jump_control -= delta
+		if Input.is_action_pressed("jump"): 
+			velocity.y = jump_speed
 	
 	if input_direction_3d != Vector3.ZERO:
 		animation_player.play("Walking" if walking else "Running")
