@@ -29,6 +29,7 @@ func _physics_process(delta):
 	if is_on_floor() && Input.is_action_just_pressed("jump"):
 		velocity.y = jump_speed
 		remaining_jump_control = jump_control_time
+		animation_player.play("Jumping")
 		
 	if remaining_jump_control > 0:
 		remaining_jump_control -= delta
@@ -36,7 +37,8 @@ func _physics_process(delta):
 			velocity.y = jump_speed
 	
 	if input_direction_3d != Vector3.ZERO:
-		animation_player.play("Walking" if walking else "Running")
+		if is_on_floor() && remaining_jump_control <= 0:
+			 animation_player.play("Walking" if walking else "Running")
 		
 		var target_quat = Quat(Basis(input_direction_3d.rotated(Vector3.UP, -PI/2), Vector3.UP, -input_direction_3d))
 		var current_quat = Quat(transform.basis.orthonormalized())
@@ -62,7 +64,8 @@ func _physics_process(delta):
 		velocity.x = forward_velocity.x
 		velocity.z = forward_velocity.z
 	else:
-		animation_player.play("Idle Pose")
+		if is_on_floor() && remaining_jump_control <= 0:
+			animation_player.play("Idle Pose")
 		velocity.x = 0
 		velocity.z = 0
 		
