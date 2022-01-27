@@ -45,7 +45,7 @@ window/size/height=720
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/CSGExporter/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/scatter/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg", res://addons/CSGExporter/plugin.cfg")
 
 [input]
 
